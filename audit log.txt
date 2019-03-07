@@ -1,0 +1,30 @@
+create table audit_log_emp_sal
+(
+	user_name varchar2(20),
+	table_name varchar2(25),
+	emp_id number,
+	old_gms number,
+	new_gms number,	
+	old_nms number,
+	new_nms number,
+	old_pf number,
+	new_pf number,	
+	old_tax number,
+	new_tax number,
+	old_extra_deduction number,
+	new_extra_deduction number,
+	old_sal_date date, 
+	date_time timestamp
+); 
+
+create or replace trigger tr_audit_emp_sal
+after update on emp_sal for each row
+declare
+	v VARCHAR2(30);
+begin
+	v := USER;
+	insert into audit_log_emp_sal
+		values(v,'emp_sal',:old.emp_id,:old.gms,:new.gms,:old.nms,:new.nms,
+		:old.pf,:new.pf,:old.tax,:new.tax,:old.extra_deduction,:new.extra_deduction,
+		:old.sal_date,systimestamp);
+end;

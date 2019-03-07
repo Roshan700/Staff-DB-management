@@ -1,0 +1,36 @@
+create table emp_sal
+(
+	emp_id number,
+	gms number,
+	nms number,
+	pf number,
+	tax number,
+	extra_deduction number,
+	sal_date date,
+	constraint pk_emp_id primary key(emp_id)
+);
+
+create table investment
+(
+	emp_id number,
+	investment_type varchar2(20),
+	amount number,
+	constraint pk_emp_id_investment_type primary key(emp_id,investment_type)
+);
+
+create table elm
+(
+	leave_type varchar2(10),
+	leave_desc varchar2(50),
+	constraint pk_leavetype primary key(leave_type)
+);
+
+create table ela
+(
+	emp_id number,
+	leave_type varchar2(10),
+	total_leaves number,
+	bal_leaves number,
+	constraint fk_leavetype foreign key(leave_type) references elm(leave_type) on delete cascade,	
+	constraint pk_empidleavetype primary key(emp_id,leave_type)	
+);
